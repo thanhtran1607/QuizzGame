@@ -1,0 +1,39 @@
+    <div class="containerHomePage">
+        <div id="end" class="flex-column flex-center">
+            <h1 id="finalScore">0</h1>
+            <form method="POST"  action="/savehighscores" class="end-form-container" id="">
+                <h2 id="end-text">Enter your name below to save your score!</h2>
+                <input class="inputHighScore" onkeyup="saveScoreBtn.disabled = !username1.value;" type="text" id="username1" placeholder="Enter your name">
+                <input class="btn_home" onclick="saveHighScores()" id="saveScoreBtn" disabled value="Save" />
+            </form>
+            <a href="/game" class="btn_home">Play Again</a>
+            <a href="/" class="btn_home">Go Home<i class="fas fa-home"></i></a>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+<script>
+let Highscore = localStorage.getItem('mostRecentScore');
+endPage(Highscore);
+
+
+
+function endPage(scorespoin){
+  finalScore.innerText = scorespoin;
+}
+function saveHighScores(){
+  $.ajax({
+      url: '/savehighscores',
+      type: 'POST',
+      data: {
+          username1: $('#username1').val(),
+          highscores: Highscore,
+      }
+  }).then(data => {
+    showToast(data.title,data.message,data.type);
+  }).catch(err =>{
+      showToast(err.responseJSON.title,err.responseJSON.message,err.responseJSON.type);
+  });
+}
+</script>

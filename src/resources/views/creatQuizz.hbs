@@ -1,0 +1,100 @@
+<div class="headerhomepage">
+    <div class="flex-column flex-left">
+        <h5>Xin chào!</h5>
+        <a href="/Manager" class="btn_logout">Homepage</a>
+    </div>
+</div>
+
+
+<div class="bodycreatquizz">
+    <div class="containerCreatquizz">
+            <h2>Tạo câu hỏi mới</h2>
+            <div class="row100-creatquizz">
+                <div class="col-creatquizz">
+                    <div class="inputBox-creatquizz textarea">
+                        <input type="text" name="" required="required" id="creatquizzt">
+                        <span class="text-creatquizz">Câu hỏi</span>
+                        <span class="line-creatquizz"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row100-creatquizz">
+                <div class="col-creatquizz">
+                    <div class="inputBox-creatquizz">
+                        <input type="text" name="" required="required" id="creatchoice1">
+                        <span class="text-creatquizz">Câu trả lời 1</span>
+                        <span class="line-creatquizz"></span>
+                    </div>
+                </div>
+                <div class="col-creatquizz">
+                    <div class="inputBox-creatquizz">
+                        <input type="text" name="" required="required" id="creatchoice2">
+                        <span class="text-creatquizz">Câu trả lời 2</span>
+                        <span class="line-creatquizz"></span>
+                    </div>
+                </div>
+                <div class="col-creatquizz">
+                    <div class="inputBox-creatquizz">
+                        <input type="text" name="" required="required" id="creatchoice3">
+                        <span class="text-creatquizz">Câu trả lời 3</span>
+                        <span class="line-creatquizz"></span>
+                    </div>
+                </div>
+                <div class="col-creatquizz">
+                    <div class="inputBox-creatquizz">
+                        <input type="text" name="" required="required" id="creatchoice4">
+                        <span class="text-creatquizz">Câu trả lời 4</span>
+                        <span class="line-creatquizz"></span>
+                    </div>
+                </div>
+                <div class="col-creatquizz">
+                    <div>
+                        <span class="SelectRightSentence">Câu trả lời đúng</span>
+                        <span class="line-creatquizz"></span>
+                    </div>
+                </div>   
+                <div class="col-creatquizz">
+                    <select class="selectOptionRightSentence" id="seletOptionRightSentence1" >
+                        <option value="1" class="optionsubmit">Câu 1</option>
+                        <option value="2" class="optionsubmit">Câu 2</option>
+                        <option value="3" class="optionsubmit">Câu 3</option>
+                        <option value="4" class="optionsubmit">Câu 4</option>
+                    </select>
+                </div>        
+            </div>
+            <div class="row100-creatquizz">
+                <div class="col-creatquizz">
+                    <input class="hoverbuttoninput" type="submit" onclick="creatquizz()" value="Thêm">
+                </div>
+            </div>
+    </div>
+</div> 
+
+<div id="toast"></div>
+
+<script>
+function creatquizz(){
+  let creatAnswer = document.getElementById("seletOptionRightSentence1").value;
+  $.ajax({
+      url: '/api/quizt',
+      type: 'POST',
+      data: {
+        question: $('#creatquizzt').val(),
+        choice1: $('#creatchoice1').val(),
+        choice2: $('#creatchoice2').val(),
+        choice3: $('#creatchoice3').val(),
+        choice4: $('#creatchoice4').val(),
+        answer: creatAnswer
+      }
+  }).then(data => {
+    console.log(data)
+      showToast(data.title,data.message,data.type);
+      setTimeout(function(){
+            return window.location.replace("/creatQuizz");
+        },1000);
+  }).catch(err =>{
+      showToast(err.responseJSON.title,err.responseJSON.message,err.responseJSON.type);
+  });
+}
+
+</script>

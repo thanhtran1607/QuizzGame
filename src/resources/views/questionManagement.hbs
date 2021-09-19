@@ -1,0 +1,140 @@
+         <div class="headerhomepage">
+            <div class="flex-column flex-left">
+                <h5>Xin chào!</h5>
+                <a href="/manager" class="btn_logout">manager</a>
+            </div>
+         </div>
+
+<table class="content-table">
+  <thead>
+    <tr>
+      <th>Câu hỏi</th>
+      <th>Đáp án 1</th>
+      <th>Đáp án 2</th>
+      <th>Đáp án 3</th>
+      <th>Đáp án 4</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="rendertable">
+  </tbody>
+</table>
+
+<div id="toast"></div>
+
+<script>
+const apiQuizz = 'http://localhost:3000/api/game';
+StartRenderquiztmanager();
+
+function StartRenderquiztmanager(){
+  getQuizz(renderQuiztManager);
+}
+function getQuizz (callback){
+  fetch(apiQuizz).then(res => {
+      try {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error(res);
+        }
+      }
+      catch (err) {
+        console.log(err.message);
+      }
+    }).then(callback);
+}
+
+function renderQuiztManager(Quizts){
+  let Quiztst = Quizts.map(quizt => { 
+    return `<tr class="hovertable quizz-item-${quizt._id}" >
+              <td>${quizt.question}</td>
+              <td>${quizt.choice1}</td>
+              <td>${quizt.choice2}</td>
+              <td>${quizt.choice3}</td>
+              <td>${quizt.choice4}</td>
+              <td>
+                  <a href="#"  class="editer">Chỉnh sửa</a>
+              </td>
+              <td>
+                <a href="#" onclick=handelDeleteQuizz('${quizt._id}') class="editer">Xoá</a>
+              </td>
+            </tr>`;
+  });
+  rendertable.innerHTML = Quiztst.join('');
+
+
+}
+ 
+function handelDeleteQuizz(idQuizz){
+    $.ajax({
+        url: `/${idQuizz}`,
+        type: 'DELETE',
+    }).then(data => {
+        showToast(data.title,data.message,data.type);
+        let quizzItem = document.querySelector(`.quizz-item-${idQuizz}`);
+        if(quizzItem){
+          quizzItem.remove()
+        }
+    }).catch(err =>{
+        showToast(err.responseJSON.title,err.responseJSON.message,err.responseJSON.type);
+    });
+}
+
+function showToast(title,message,type) {
+    toast({
+      title: `${title}`,
+      message:`${ message}`,
+      type: `${type}`,
+      duration: 5000
+    });
+    return toast;
+}
+
+function toast({ title = "", message = "", type = "info", duration = 3000 }) {
+    const main = document.getElementById("toast");
+    if (main) {
+      const toast = document.createElement("div");
+  
+      // Auto remove toast
+      const autoRemoveId = setTimeout(function () {
+        main.removeChild(toast);
+      }, duration + 1000);
+  
+      // Remove toast when clicked
+      toast.onclick = function (e) {
+        if (e.target.closest(".toast__close")) {
+          main.removeChild(toast);
+          clearTimeout(autoRemoveId);
+        }
+      };
+  
+      const icons = {
+        success: "fas fa-check-circle",
+        info: "fas fa-info-circle",
+        warning: "fas fa-exclamation-circle",
+        error: "fas fa-exclamation-circle"
+      };
+      const icon = icons[type];
+      const delay = (duration / 1000).toFixed(2);
+  
+      toast.classList.add("toast", `toast--${type}`);
+      toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
+  
+      toast.innerHTML = `
+                      <div class="toast__icon">
+                          <i class="${icon}"></i>
+                      </div>
+                      <div class="toast__body">
+                          <h3 class="toast__title">${title}</h3>
+                          <p class="toast__msg">${message}</p>
+                      </div>
+                      <div class="toast__close">
+                          <i class="fas fa-times"></i>
+                      </div>
+                  `;
+      main.appendChild(toast);
+    }
+}
+
+</script>

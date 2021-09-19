@@ -1,0 +1,38 @@
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{ 
+    "username": "thanhtrana1",
+    "password" : "moclan"
+}
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username":"thanhtran",
+    "password": "thanhtran"
+}
+
+###
+
+POST http://localhost:3000/api/quizt
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTM2YzJlODNiZDVmZDY2YTAwOTRiZjAiLCJpYXQiOjE2MzA5Nzg3OTJ9.q19iUacPLawCEIytNz_S6hToTTw_Lb9_FDkQ7vMMLGU
+
+{
+    "question":"bạn có yêua tôi khôngg",
+    "answer1":"Không",
+    "answer2":"cóaaz",
+    "answer3":"suýt có",
+    "answer4":"gần có",
+    "successfull":"answer4"
+
+}
+###
+GET http://localhost:3000/api/quizt
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTM2YzJlODNiZDVmZDY2YTAwOTRiZjAiLCJpYXQiOjE2MzA5Nzg3OTJ9.q19iUacPLawCEIytNz_S6hToTTw_Lb9_FDkQ7vMMLGU
+ 
+###
+DELETE http://localhost:3000/61445ec64b8d68dec5f347ad

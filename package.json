@@ -1,0 +1,26 @@
+{
+  "name": "quizt_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js",
+    "watch": "node-sass --watch src/resources/scss/app.scss -o src/public/css"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.28.2",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.4",
+    "node-sass": "^6.0.1",
+    "nodemon": "^2.0.12"
+  }
+}

@@ -1,0 +1,40 @@
+        <div class="containerHomePage">
+            <div id="highScores" class="flex-column flex-center">
+                <h1 id="finalScore1" >Điểm cao nhất</h1>
+                <ul id="highScoresList"></ul>
+                <a href="/" class="btn_home">Go Home <i class="fas fa-home"></i></a>
+            </div>
+        </div> 
+
+<script>
+const apiHighscores = 'http://localhost:3000/api/highscores';
+startrenderHighscores();
+function startrenderHighscores(){
+  getHighScores(renderHighscores);
+}
+
+function renderHighscores(Highscor){
+  let highScores = Highscor;
+  highScores.sort(function (a, b) { return b.highscores - a.highscores;});
+  let highhgh = highScores.slice(0,7);
+  let Highscoredb = highhgh.map(score => {
+    return `<li class="highScores">Username: ${score.username1} -  Scores: ${score.highscores}</li>`;
+  });
+    highScoresList.innerHTML = Highscoredb.join('');
+}
+function getHighScores(callback){
+  fetch(apiHighscores).then(res => {
+    try {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res);
+      }
+    }
+    catch (err) {
+      console.log(err.message);
+    }
+  }).then(callback).catch(err => console.log(err));   
+}
+
+</script>
